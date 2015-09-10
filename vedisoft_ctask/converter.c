@@ -10,10 +10,9 @@ void invertString(char* s, int length)
 		s[i] = s[length - i - 1];
 		s[length - i - 1] = temp;	
 	}
-	
 }
 
-char* fixPacket(char* packet)
+char* preparePacket(const char* packet)
 {
 	//checking for errors in packet
 	int packetLength = strlen(packet);
@@ -73,7 +72,7 @@ char* fixPacket(char* packet)
 	return fixedPacket;
 }
 
-char* parsePacket(char* packet)
+char* binaryPacketToHex(const char* packet)
 {
 	//already operating with prepared packet
 	//ready to convert
@@ -84,7 +83,7 @@ char* parsePacket(char* packet)
 
 	fprintf(stdout, "hexdata length is %i \n", hexLength);
 
-	for (int i = 0; i < packetLength; i+=4)
+	for (int i = 0; i < packetLength - 1; i += 4)
 	{
 		char temp[5];
 		temp[0] = packet[i];
@@ -102,11 +101,11 @@ char* parsePacket(char* packet)
 	return hexdata;
 }
 
-char binToHex(const char binary[4])
+char binToHex(const char* binary)
 {
 	if (strlen(binary) != 4)
 	{
-		fprintf(stderr, "Incorrect binary length: %d\n", sizeof(binary) / sizeof(char));
+		fprintf(stderr, "Incorrect binary length: %d\n", strlen(binary));
 		return 'x';
 	}
 
@@ -292,7 +291,18 @@ char* getTypeValue(int type, const char* data, int size)
 
 		packet[packetLength - 1] = '\0';
 
-		//return hexdata;
+		char* fixedPacket = preparePacket(packet);
+		
+		char* hexdata = binaryPacketToHex(fixedPacket);
+
+		fprintf(stdout, "Initial packet without boundaries: %s \n", packet);
+		fprintf(stdout, "Fixed packet: %s \n", fixedPacket);
+		fprintf(stdout, "Hex data from packet: %s \n", hexdata);
+
+		free(packet);
+		free(fixedPacket);
+
+		return hexdata;
 	}
 	else
 	{

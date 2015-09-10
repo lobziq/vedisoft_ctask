@@ -28,14 +28,14 @@ int main()
 		memset(input, 0, sizeof(input));
 	}
 
-	//char* out = getTypeValue(3, "0111111000111001010101011111011101100000001111110", 14);
+	char* out = getTypeValue(3, "01111110001110010101010111111011101100000001111110", 14);
 
-	char* check = parsePacket("001110010101010111110111011000000");
+	//char* check = binaryPacketToHex("001110010101010111110111011000000");
 
 	//invertString(out, strlen(out));
 	//char* out = decToBin(4545);
 
-	fprintf(stdout, "PACKET IS: %s\n", check);
+	fprintf(stdout, "PACKET IS: %s\n", out);
 
 
 
